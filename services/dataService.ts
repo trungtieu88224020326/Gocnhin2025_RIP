@@ -1,4 +1,3 @@
-
 import { Article, GroupedData, RawRow, SHEET_URL } from '../types';
 
 /**
@@ -62,7 +61,7 @@ const parseTSV = (tsvText: string): GroupedData[] => {
 
     const author = authorIdx !== -1 ? cells[authorIdx]?.trim() : (cells[1]?.trim() || 'Khuyết danh');
     const author_name = authorNameIdx !== -1 ? cells[authorNameIdx]?.trim() : undefined;
-    const author_gen = authorGenIdx !== -1 ? cells[authorGenIdx]?.trim() : 'Ông/Bà';
+    const author_gen = (authorGenIdx !== -1 && cells[authorGenIdx]) ? cells[authorGenIdx]?.trim() : 'Ông';
     const author_bio = bioIdx !== -1 ? cells[bioIdx]?.trim() : undefined;
     const article_id = articleIdIdx !== -1 ? cells[articleIdIdx]?.trim() : undefined;
     

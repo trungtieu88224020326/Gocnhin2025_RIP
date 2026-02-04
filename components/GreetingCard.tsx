@@ -1,6 +1,6 @@
 
 import React, { useRef, useState } from 'react';
-import { Download, Loader2, Facebook, Link as LinkIcon, Check } from 'lucide-react';
+import { Download, Loader2, Facebook, Link as LinkIcon, Check, Heart } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
 interface Props {
@@ -41,11 +41,11 @@ const GreetingCard: React.FC<Props> = ({ author, authorGen, onClose }) => {
         backgroundColor: '#ffffff',
       });
 
-      const image = canvas.toDataURL("image/jpeg", 0.9);
+      const image = canvas.toDataURL("image/jpeg", 0.95);
       
       const link = document.createElement("a");
       link.href = image;
-      link.download = `VnExpress-Cam-On-${author.replace(/\s+/g, '-')}.jpg`;
+      link.download = `VnExpress-Tuong-Nho-${author.replace(/\s+/g, '-')}.jpg`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -59,7 +59,7 @@ const GreetingCard: React.FC<Props> = ({ author, authorGen, onClose }) => {
 
   const handleShare = (platform: 'facebook' | 'x' | 'copy') => {
     const url = window.location.href;
-    const text = `VnExpress gửi lời cảm ơn đến tác giả ${author}.`;
+    const text = `VnExpress gửi lời tri ân và thành kính tưởng nhớ tác giả ${author}.`;
 
     if (platform === 'facebook') {
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
@@ -72,109 +72,110 @@ const GreetingCard: React.FC<Props> = ({ author, authorGen, onClose }) => {
     }
   };
 
-  const salutation = authorGen ? (authorGen.charAt(0).toUpperCase() + authorGen.slice(1)) : 'Ông/Bà';
+  // Logic danh xưng mặc định: Ưu tiên "Ông" cho không gian tưởng nhớ trang trọng
+  const salutation = (authorGen && authorGen !== 'Ông/Bà') ? (authorGen.charAt(0).toUpperCase() + authorGen.slice(1)) : 'Ông';
   const salutationLower = salutation.toLowerCase();
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 md:p-4 bg-black/85 backdrop-blur-md animate-fade-in" onClick={onClose}>
-      <div className="relative w-full max-w-[480px] md:max-w-[504px] flex flex-col items-center">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 md:p-4 bg-black/80 backdrop-blur-sm animate-fade-in" onClick={onClose}>
+      <div className="relative w-full max-w-[480px] md:max-w-[520px] flex flex-col items-center">
         
         {/* Capture Area / Card Body */}
         <div 
           ref={cardRef}
-          className="relative w-full bg-[#fffdf9] shadow-2xl overflow-hidden rounded-sm animate-scale-up cursor-default flex flex-col"
+          className="relative w-full bg-[#fffdf9] shadow-2xl overflow-hidden rounded-sm animate-scale-up cursor-default flex flex-col border border-gold/20"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Tet Background Decor */}
+          {/* Elegant Background Decor */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <div className="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/handmade-paper.png')]"></div>
             
-            {/* Traditional Decor */}
-            <svg className="absolute -left-10 -top-10 w-40 h-40 text-vnexpress/5 opacity-30" viewBox="0 0 100 100">
-               <path d="M10,40 Q30,20 50,40 T90,40" fill="none" stroke="currentColor" strokeWidth="2" />
-               <path d="M5,50 Q25,30 45,50 T85,50" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            {/* Subtle Curves */}
+            <svg className="absolute -left-10 -top-10 w-48 h-48 text-gold/10 opacity-40" viewBox="0 0 100 100">
+               <path d="M10,40 Q30,20 50,40 T90,40" fill="none" stroke="currentColor" strokeWidth="1" />
             </svg>
-            <div className="absolute top-3 right-3 w-12 h-12 border-t border-r border-gold/30"></div>
-            <div className="absolute bottom-3 left-3 w-12 h-12 border-b border-l border-gold/30"></div>
             
-            {/* Traditional Stamp Circle */}
-            <div className="absolute -right-16 -bottom-16 w-48 h-48 border border-vnexpress/[0.03] rounded-full"></div>
+            {/* Traditional Gold Borders */}
+            <div className="absolute top-4 right-4 w-16 h-16 border-t border-r border-gold/30"></div>
+            <div className="absolute bottom-4 left-4 w-16 h-16 border-b border-l border-gold/30"></div>
+            
+            {/* Decorative Corner Ribbon (Memorial) */}
+            <div className="absolute top-0 left-0 w-24 h-24 overflow-hidden">
+               <div className="absolute top-0 left-0 w-full h-[2px] bg-black/10 origin-left rotate-45 translate-y-6"></div>
+            </div>
           </div>
 
-          <div className="absolute inset-4 border border-gold/10 rounded-sm pointer-events-none z-20"></div>
+          <div className="absolute inset-6 border border-gold/10 rounded-sm pointer-events-none z-20"></div>
 
           {/* Card Content */}
-          <div className="relative z-10 px-8 md:px-12 py-10 md:py-12 flex flex-col items-center">
+          <div className="relative z-10 px-10 md:px-14 py-12 md:py-16 flex flex-col items-center">
             
             {/* Header */}
-            <div className="w-full flex flex-col items-center mb-8">
-               <div className="mb-4">
+            <div className="w-full flex flex-col items-center mb-10">
+               <div className="mb-6 opacity-60">
                   <img 
                     src="https://s1.vnecdn.net/vnexpress/restruct/i/v9775/v2_2019/pc/graphics/logo.svg" 
                     alt="VnExpress" 
                     crossOrigin="anonymous" 
-                    className="h-5 w-auto"
+                    className="h-4 w-auto grayscale"
                   />
                </div>
                
-               <h2 className="font-script text-5xl text-vnexpress drop-shadow-sm leading-tight mb-6">
-                 Thư cảm ơn
+               <h2 className="font-script text-5xl md:text-6xl text-vnexpress drop-shadow-sm leading-tight mb-8">
+                 Thư tưởng nhớ
                </h2>
 
-               <div className="w-full text-left border-b border-gold/10 pb-2 mb-3">
-                  <span className="italic text-xs text-stone-400 font-serif mr-4">Kính gửi:</span>
-                  <span className="font-bold text-lg font-serif text-ink">
+               <div className="w-full text-center border-b border-gold/15 pb-4 mb-6">
+                  <span className="italic text-xs text-stone-400 font-serif block mb-2">Kính tưởng nhớ</span>
+                  <span className="font-bold text-xl md:text-2xl font-serif text-ink tracking-tight">
                      {salutation} {author}
                   </span>
                </div>
             </div>
 
-            {/* Main Message */}
+            {/* Main Message (Updated Content) */}
             <div 
-              className="text-stone-700 font-serif text-justify space-y-4 w-full"
-              style={{ fontSize: '0.85rem', lineHeight: '1.5rem' }}
+              className="text-stone-700 font-serif text-justify space-y-6 w-full italic"
+              style={{ fontSize: '0.92rem', lineHeight: '1.7rem' }}
             >
               <p>
-                Trong năm 2025, <span className="text-vnexpress font-bold">Góc nhìn</span> vinh dự đồng hành cùng {salutationLower} <strong className="text-black font-bold">{author}</strong>, mang đến cho độc giả những ý kiến sâu sắc, độc lập và có trách nhiệm.
+                Dù tác giả <strong className="text-black not-italic">{author}</strong> không còn hiện diện, những ý kiến tâm huyết, sâu sắc và đầy trách nhiệm của {salutationLower} vẫn tiếp tục được lưu giữ trong ký ức bạn đọc và bồi đắp cho hành trình phát triển của chuyên mục Góc nhìn.
               </p>
               
               <p>
-                Mỗi bài viết không chỉ thể hiện sự am tường mà còn cho thấy tâm huyết và bản lĩnh dấn thân, mang đến góc nhìn mới mẻ và minh triết. Những đóng góp ấy đã cùng chúng tôi định hình bản sắc Góc nhìn - một không gian đối thoại thẳng thắn, đa chiều, mang tinh thần phụng sự.
-              </p>
-
-              <p className="font-bold text-ink">
-                Chuyên mục Góc nhìn trân trọng cảm ơn {salutationLower}!
-              </p>
-              
-              <p>
-                Kính chúc {salutationLower} và gia đình năm mới an khang, thịnh vượng.
+                Mỗi bài viết để lại sẽ góp phần nuôi dưỡng tư duy độc lập, tinh thần đối thoại thẳng thắn và đa chiều - những giá trị cốt lõi mà Góc nhìn luôn kiên trì theo đuổi và gìn giữ.
               </p>
 
               <p>
-                Chúng tôi mong được tiếp tục đồng hành cùng {salutationLower} <strong className="text-black font-bold">{author}</strong> trên hành trình đối thoại và khai mở tri thức.
+                Những đóng góp của <strong className="text-black not-italic">{salutationLower} {author}</strong> đã trở thành một phần di sản tinh thần quý giá của chuyên mục Góc nhìn - VnExpress.
               </p>
             </div>
 
             {/* Signature */}
-            <div className="w-full text-right mt-10 space-y-1">
-               <p className="font-bold text-black font-serif italic text-sm">Trân trọng,</p>
-               <p className="font-sans text-vnexpress font-bold tracking-widest uppercase text-[10px]">Góc nhìn - VnExpress</p>
+            <div className="w-full text-right mt-14 space-y-2">
+               <div className="flex justify-end items-center space-x-2 text-vnexpress/40 mb-1">
+                  <div className="h-[1px] w-8 bg-current"></div>
+                  <Heart size={12} fill="currentColor" />
+               </div>
+               <p className="font-bold text-black font-serif italic text-sm">Thành kính tưởng nhớ,</p>
+               <p className="font-sans text-vnexpress font-bold tracking-[0.2em] uppercase text-[10px] opacity-80">Góc nhìn - VnExpress</p>
             </div>
           </div>
 
-          <div className="h-1.5 w-full bg-gradient-to-r from-vnexpress via-gold to-vnexpress opacity-80"></div>
+          {/* Bottom Bar */}
+          <div className="h-1.5 w-full bg-gradient-to-r from-vnexpress/40 via-gold/40 to-vnexpress/40"></div>
         </div>
 
         {/* Footer Actions */}
-        <div className="mt-6 w-full flex items-center justify-between px-2 md:px-0">
-            <div className="flex items-center space-x-2">
-                 <button onClick={(e) => { e.stopPropagation(); handleShare('facebook'); }} className="p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-sm">
+        <div className="mt-8 w-full flex items-center justify-between px-2 md:px-0">
+            <div className="flex items-center space-x-3">
+                 <button onClick={(e) => { e.stopPropagation(); handleShare('facebook'); }} className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all backdrop-blur-md border border-white/10 shadow-lg">
                     <Facebook size={18} strokeWidth={1.5} />
                  </button>
-                 <button onClick={(e) => { e.stopPropagation(); handleShare('x'); }} className="p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-sm">
+                 <button onClick={(e) => { e.stopPropagation(); handleShare('x'); }} className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all backdrop-blur-md border border-white/10 shadow-lg">
                     <XIcon size={16} />
                  </button>
-                 <button onClick={(e) => { e.stopPropagation(); handleShare('copy'); }} className="p-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-sm">
+                 <button onClick={(e) => { e.stopPropagation(); handleShare('copy'); }} className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all backdrop-blur-md border border-white/10 shadow-lg">
                     {copied ? <Check size={18} className="text-green-400" /> : <LinkIcon size={18} strokeWidth={1.5} />}
                  </button>
             </div>
@@ -182,10 +183,10 @@ const GreetingCard: React.FC<Props> = ({ author, authorGen, onClose }) => {
             <button 
               onClick={(e) => { e.stopPropagation(); handleDownload(); }}
               disabled={isDownloading}
-              className="flex items-center space-x-2 px-6 py-3 bg-vnexpress text-white rounded-full font-bold shadow-xl hover:bg-vnexpress/90 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+              className="group flex items-center space-x-3 px-8 py-3.5 bg-vnexpress text-white rounded-full font-bold shadow-2xl hover:bg-vnexpress/90 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
             >
-              {isDownloading ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
-              <span className="text-xs tracking-widest uppercase">Tải thiệp</span>
+              {isDownloading ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} className="group-hover:-translate-y-0.5 transition-transform" />}
+              <span className="text-xs tracking-[0.2em] uppercase font-sans">TẢI THƯ</span>
             </button>
         </div>
       </div>

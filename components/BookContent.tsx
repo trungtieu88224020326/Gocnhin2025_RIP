@@ -1,6 +1,6 @@
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import { Article, GroupedData } from '../types';
-import { Clock, MessageSquare, ChevronRight, Facebook, Link as LinkIcon, Check, User, ArrowLeft } from 'lucide-react';
+import { Clock, MessageSquare, ChevronRight, Facebook, Link as LinkIcon, Check, User, ArrowLeft, Gift } from 'lucide-react';
 import GreetingCard from './GreetingCard';
 
 interface Props {
@@ -183,7 +183,7 @@ const BookContent: React.FC<Props> = ({
         ref={containerRef}
         className="relative w-full h-full overflow-y-auto custom-scroll bg-[#f7f7f7]"
       >
-        {/* Mobile View Layout (Stacked) */}
+        {/* Mobile View Layout */}
         <div className="md:hidden w-full flex flex-col bg-white min-h-full relative">
             {onBackToAuthors && (
               <button 
@@ -200,7 +200,14 @@ const BookContent: React.FC<Props> = ({
             </div>
 
             <div className="flex-1 px-6 py-10 bg-white">
-               <AuthorHeader isMobile={true} />
+               <div className="flex justify-between items-start mb-6">
+                  <AuthorHeader isMobile={true} />
+                  <button onClick={() => setShowCard(true)} className="flex items-center space-x-2 px-3 py-1.5 bg-vnexpress/10 text-vnexpress rounded-full text-[10px] font-sans font-bold transition-all active:scale-95 border border-vnexpress/20">
+                    <Gift size={12} />
+                    <span className="uppercase tracking-widest">Tưởng nhớ</span>
+                  </button>
+               </div>
+               
                <h1 className="text-2xl font-serif font-bold text-ink leading-[1.4] mb-4">
                   {article.title}
                </h1>
@@ -215,13 +222,13 @@ const BookContent: React.FC<Props> = ({
                   </div>
                   
                   <div className="flex items-center space-x-4 shrink-0">
-                      <button onClick={handleShareFacebook} className="text-[#a8a8a8] active:text-blue-600 transition-colors">
+                      <button onClick={handleShareFacebook} className="text-[#a8a8a8] hover:text-blue-600 transition-colors">
                           <Facebook size={18} strokeWidth={1.2} />
                       </button>
-                      <button onClick={handleShareX} className="text-[#a8a8a8] active:text-black transition-colors">
+                      <button onClick={handleShareX} className="text-[#a8a8a8] hover:text-black transition-colors">
                           <XIcon size={14} />
                       </button>
-                      <button onClick={handleCopyLink} className="text-[#a8a8a8] active:text-vnexpress transition-colors">
+                      <button onClick={handleCopyLink} className="text-[#a8a8a8] hover:text-vnexpress transition-colors">
                           {copied ? <Check size={18} className="text-green-600"/> : <LinkIcon size={18} strokeWidth={1.2} />}
                       </button>
                   </div>
@@ -233,20 +240,14 @@ const BookContent: React.FC<Props> = ({
                   style={{ fontSize: `${fontSize}px` }}
                   dangerouslySetInnerHTML={{ __html: processedContent }}
                />
-               <div className="mt-16 pb-12 flex justify-center items-center space-x-3 text-gray-200">
-                  <div className="h-px w-12 bg-gray-200"></div>
-                  <div className="w-1.5 h-1.5 bg-vnexpress/30 rounded-full"></div>
-                  <div className="h-px w-12 bg-gray-200"></div>
-               </div>
             </div>
         </div>
 
-        {/* Desktop View Layout (Book Mode) */}
+        {/* Desktop View Layout */}
         <div className="hidden md:flex relative w-full h-full justify-center items-center p-6 lg:p-10 perspective-2000 overflow-hidden">
           <div className="relative w-full max-w-[1400px] h-[85vh] lg:h-[90vh] max-h-[900px] bg-white shadow-book rounded-sm flex flex-row transform-style-3d border border-border-gray overflow-hidden">
             
-            {/* Left Page: Author's Article List for 2025 */}
-            <div className="w-[42%] lg:w-[40%] shrink-0 h-full bg-[#fcfcfc] relative border-r border-border-gray/60 shadow-[inset_-10px_0_20px_-10px_rgba(0,0,0,0.02)] flex flex-col z-10">
+            <div className="w-[42%] lg:w-[40%] shrink-0 h-full bg-[#fcfcfc] relative border-r border-border-gray/60 flex flex-col z-10">
                <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-gray-300 z-30"></div>
                
                {onBackToAuthors && (
@@ -265,7 +266,7 @@ const BookContent: React.FC<Props> = ({
                         <div className="w-6 h-[1px] bg-vnexpress"></div>
                         <h2 className="text-[10px] font-sans font-black uppercase tracking-[0.4em] text-vnexpress">Danh mục</h2>
                      </div>
-                     <h3 className="text-2xl lg:text-3xl font-serif font-bold text-ink leading-tight tracking-tight">Bài viết năm 2025</h3>
+                     <h3 className="text-2xl lg:text-3xl font-serif font-bold text-ink leading-tight tracking-tight">Bài viết tiêu biểu</h3>
                   </div>
 
                   <div className="space-y-0">
@@ -297,24 +298,20 @@ const BookContent: React.FC<Props> = ({
                         </div>
                      ))}
                   </div>
-
-                  <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col items-center opacity-40">
-                    <img 
-                      src="https://s1.vnecdn.net/vnexpress/restruct/i/v9775/v2_2019/pc/graphics/logo.svg" 
-                      alt="VnExpress" 
-                      className="h-5 w-auto mb-2 grayscale"
-                    />
-                    <span className="text-[8px] font-sans uppercase tracking-[0.2em]">Góc nhìn 2025</span>
-                  </div>
                </div>
             </div>
 
-            {/* Right Page: Article Content */}
             <div key={article.id + '-content-pc'} className="flex-1 h-full bg-white relative z-20 origin-left animate-page-turn flex flex-col">
               <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-gray-200/40 via-gray-100/10 to-transparent pointer-events-none z-30"></div>
               <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-gray-300 z-30"></div>
               <div className="flex-1 overflow-y-auto custom-scroll px-10 lg:px-20 py-12 lg:py-16">
-                <AuthorHeader isMobile={false} />
+                <div className="flex justify-between items-start">
+                   <AuthorHeader isMobile={false} />
+                   <button onClick={() => setShowCard(true)} className="flex items-center space-x-2 px-6 py-2 bg-vnexpress text-white rounded-full text-[11px] font-sans font-bold transition-all shadow-md hover:bg-vnexpress/90 active:scale-95">
+                      <Gift size={16} />
+                      <span className="uppercase tracking-widest">THƯ TƯỞNG NHỚ</span>
+                    </button>
+                </div>
                 
                 <h1 className="text-2xl lg:text-3xl xl:text-[2rem] font-serif font-bold text-ink leading-[1.3] mb-6">
                   {article.title}
@@ -329,8 +326,8 @@ const BookContent: React.FC<Props> = ({
                     <button onClick={handleShareFacebook} className="text-gray-400 hover:text-blue-600 transition-colors"><Facebook size={16}/></button>
                     <button onClick={handleShareX} className="text-gray-400 hover:text-black transition-colors"><XIcon size={14}/></button>
                     <button onClick={handleCopyLink} className="text-gray-400 hover:text-vnexpress transition-colors">
-  {copied ? <Check size={16} className="text-green-600"/> : <LinkIcon size={16}/>}
-</button>
+                      {copied ? <Check size={16} className="text-green-600"/> : <LinkIcon size={16}/>}
+                    </button>
                   </div>
                 </div>
                 <div 
@@ -338,14 +335,9 @@ const BookContent: React.FC<Props> = ({
                     style={{ fontSize: `${fontSize}px` }}
                     dangerouslySetInnerHTML={{ __html: processedContent }}
                 />
-                <div className="mt-16 pb-10 flex justify-center items-center space-x-3 text-gray-200">
-                  <div className="h-px w-16 bg-gray-200"></div>
-                  <div className="w-1.5 h-1.5 bg-vnexpress rounded-full"></div>
-                  <div className="h-px w-16 bg-gray-200"></div>
-                </div>
               </div>
               <div className="p-6 text-right text-[10px] lg:text-xs text-gray-300 font-sans tracking-[0.2em] uppercase">
-                Trang số {parseInt(article.id.replace('row-', '')) + 1}
+                Góc nhìn VnExpress
               </div>
             </div>
           </div>
